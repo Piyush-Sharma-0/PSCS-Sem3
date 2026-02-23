@@ -23,13 +23,6 @@ def extract_minutes(v):
 df = pd.read_csv("train.csv")
 df.columns = df.columns.str.strip()   # clean column names
 
-# Find the delivery time column (if named differently)
-if "Time_taken(min)" not in df.columns:
-    for col in df.columns:
-        if "time" in col.lower() and "min" in col.lower():
-            df = df.rename(columns={col: "Time_taken(min)"})
-            break
-
 # Extract numeric delivery time
 df["Time_taken(min)"] = df["Time_taken(min)"].apply(extract_minutes)
 
@@ -83,7 +76,7 @@ plt.boxplot(
     data_to_plot,
     tick_labels=order,  # updated for Matplotlib 3.9+
     patch_artist=True,
-    boxprops=dict(facecolor="lightblue")
+    boxprops=dict(facecolor="lightgreen")
 )
 plt.xlabel("Traffic Density")
 plt.ylabel("Delivery Time (minutes)")

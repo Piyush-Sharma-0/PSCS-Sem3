@@ -153,3 +153,5 @@ def biased_without_replacement(x=5):
         population.pop(idx)
         weights.pop(idx)
     return selected
+
+distinct_per_group(10,1000,2)

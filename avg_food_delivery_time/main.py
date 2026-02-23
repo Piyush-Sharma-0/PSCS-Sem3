@@ -23,17 +23,10 @@ def extract_minutes(x):
 
 df["Time_taken(min)"] = df["Time_taken(min)"].apply(extract_minutes)
 
-# ----------------------------------------------------------
-# Convert age to numeric (non-numeric entries become NaN)
-# ----------------------------------------------------------
 df["Delivery_person_Age"] = pd.to_numeric(df["Delivery_person_Age"], errors="coerce")
 
-# Remove leading/trailing spaces from traffic density labels
 df["Road_traffic_density"] = df["Road_traffic_density"].str.strip()
 
-# ----------------------------------------------------------
-# Drop rows where important fields are missing
-# ----------------------------------------------------------
 df = df.dropna(subset=["Time_taken(min)", "Delivery_person_Age", "Road_traffic_density"])
 
 
@@ -41,7 +34,7 @@ df = df.dropna(subset=["Time_taken(min)", "Delivery_person_Age", "Road_traffic_d
 # 2. DRAW A RANDOM SAMPLE OF 100 DELIVERY TIMES
 # ==========================================================
 
-sample = df["Time_taken(min)"].sample(100, replace=True, random_state=42)
+sample = df["Time_taken(min)"].sample(100, replace=True)
 
 sample_mean = sample.mean()      # sample mean
 sigma = 8                        # given population standard deviation
@@ -65,7 +58,10 @@ p_value = norm.sf(abs(z)) * 2
 print("Sample mean delivery time:", sample_mean)
 print("Z-value:", z)
 print("p-value:", p_value)
-
+if(p_value>0.05):
+    print("Fail to reject the null hypothesis: No significant difference from claimed mean.")
+else:
+    print("Reject the null hypothesis: Significant difference from claimed mean.")
 
 # ==========================================================
 # 4. SCATTER PLOT: Delivery Person Age vs. Delivery Time
